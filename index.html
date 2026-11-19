@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EMA 小助理｜創業管理分析師 300 題測驗練習</title>
+  <meta name="description" content="EMA 創業管理分析師證照 300 題線上練習平台，免登入即可進行牛刀小試隨機測驗、即時批改錯題解答與查閱歷史紀錄。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Navigation -->
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <button type="button" class="brand" id="btn-brand-home" aria-label="回到 EMA 小助理首頁">
+          <span class="brand-icon" aria-hidden="true">EMA</span>
+          <span class="brand-text">
+            <strong>EMA 小助理</strong>
+            <small>創業管理分析師 300 題測驗</small>
+          </span>
+        </button>
+
+        <nav class="topnav" aria-label="主要導覽">
+          <button type="button" class="nav-btn active" data-nav="home" id="nav-home">首頁</button>
+          <button type="button" class="nav-btn" data-nav="quiz" id="nav-quiz">牛刀小試</button>
+          <button type="button" class="nav-btn" data-nav="history" id="nav-history">
+            歷史紀錄
+            <span class="nav-badge" id="nav-history-count">0</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+      <!-- ==================== VIEW 1: HOME ==================== -->
+      <section id="view-home" class="view active" aria-labelledby="home-title">
+        <div class="hero-card">
+          <div class="hero-badge">免登入・完全免費・本機自動紀錄</div>
+          <h1 id="home-title">EMA 創業管理分析師小助理</h1>
+          <p class="hero-subtitle">
+            完整收錄 <strong>EMA 題庫 300 題（111.08 更新版）</strong>。同學無須註冊或登入帳號，點開就能馬上練習，系統自動計分、整理錯題並保存歷次測驗紀錄。
+          </p>
+          <div class="hero-meta">
+            <div class="meta-chip">
+              <span class="meta-label">題庫總數</span>
+              <strong id="home-total-questions">300 題</strong>
+            </div>
+            <div class="meta-chip">
+              <span class="meta-label">每次測驗</span>
+              <strong>10 題隨機選擇題</strong>
+            </div>
+            <div class="meta-chip">
+              <span class="meta-label">計分方式</span>
+              <strong>每題 10 分・滿分 100</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card feature-quiz">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3L22 4" />
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg>
+            </div>
+            <h2>牛刀小試</h2>
+            <p>
+              從 EMA 300 題中隨機抽出 10 題選擇題，每題 10 分、總分 100 分。題目皆標示出自題庫第幾題，交卷立即主動告知分數、正確答案與錯題清單。
+            </p>
+            <ul class="feature-list">
+              <li>隨機出題不重複，模擬實戰手感</li>
+              <li>清楚標註「(出自EMA題庫第幾題)」</li>
+              <li>即時彙整寫錯題目與正確解答</li>
+            </ul>
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-start-quiz-home">
+              開始牛刀小試
+            </button>
+          </article>
+
+          <article class="feature-card feature-history">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h2>歷史紀錄</h2>
+            <p>
+              每一次牛刀小試送出後，系統皆自動將成績、作答時間、所有題目與錯題解答存入本機紀錄，隨時回來複習弱點題目。
+            </p>
+            <div class="home-history-summary" id="home-history-summary">
+              <!-- Populated by JS -->
+            </div>
+            <button type="button" class="btn btn-secondary btn-lg btn-block" id="btn-open-history-home">
+              查看歷史紀錄
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 2: QUIZ ==================== -->
+      <section id="view-quiz" class="view" aria-labelledby="quiz-title">
+        <div class="quiz-sticky-bar">
+          <div class="quiz-sticky-top">
+            <div>
+              <h1 id="quiz-title" class="quiz-heading">牛刀小試</h1>
+              <p class="quiz-subheading">共 10 題單選題・每題 10 分・總分 100 分</p>
+            </div>
+            <div class="quiz-status-right">
+              <div class="timer-pill" aria-label="作答時間">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <span id="quiz-timer">00:00</span>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm" id="btn-quit-quiz">離開</button>
+            </div>
+          </div>
+
+          <div class="progress-row">
+            <span class="progress-text" id="quiz-progress-text">已作答 0 / 10 題</span>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-fill" id="quiz-progress-fill" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="question-pills" id="quiz-question-pills" aria-label="快速跳題"></div>
+        </div>
+
+        <form id="quiz-form" class="quiz-list" novalidate>
+          <!-- 10 question cards rendered by JS -->
+        </form>
+
+        <div class="quiz-submit-panel">
+          <div class="submit-hint" id="quiz-submit-hint">請完成所有題目後送出測驗</div>
+          <div class="submit-actions">
+            <button type="button" class="btn btn-primary btn-lg" id="btn-submit-quiz">
+              送出測驗並查看成績
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 3: RESULT ==================== -->
+      <section id="view-result" class="view" aria-labelledby="result-title">
+        <div class="score-banner" id="result-score-banner">
+          <!-- Score summary rendered by JS -->
+        </div>
+
+        <!-- Wrong Questions Highlight Section -->
+        <section class="result-section" aria-labelledby="wrong-section-title">
+          <div class="section-header">
+            <h2 id="wrong-section-title">寫錯的題目與正確解答</h2>
+            <span class="section-count" id="result-wrong-badge">0 題</span>
+          </div>
+          <div id="result-wrong-list" class="review-list"></div>
+        </section>
+
+        <!-- Full 10 Questions & Answers Section -->
+        <section class="result-section" aria-labelledby="all-answers-title">
+          <div class="section-header">
+            <h2 id="all-answers-title">本次測驗全部題目與解答（共 10 題）</h2>
+            <div class="filter-tabs" role="tablist" aria-label="篩選題目">
+              <button type="button" class="filter-tab active" data-filter="all" id="filter-all">全部 10 題</button>
+              <button type="button" class="filter-tab" data-filter="wrong" id="filter-wrong">只看答錯</button>
+              <button type="button" class="filter-tab" data-filter="correct" id="filter-correct">只看答對</button>
+            </div>
+          </div>
+          <div id="result-all-list" class="review-list"></div>
+        </section>
+
+        <!-- Bottom Action Bar: 重新測試 / 離開 -->
+        <div class="result-footer-actions">
+          <button type="button" class="btn btn-primary btn-lg" id="btn-retry-quiz">
+            重新測試
+          </button>
+          <button type="button" class="btn btn-outline btn-lg" id="btn-leave-result">
+            離開
+          </button>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 4: HISTORY LIST ==================== -->
+      <section id="view-history" class="view" aria-labelledby="history-title">
+        <div class="page-header">
+          <div>
+            <h1 id="history-title">歷史紀錄</h1>
+            <p class="page-subtitle">每次牛刀小試的成績與作答明細皆自動儲存在本瀏覽器中，無須登入即可隨時複習。</p>
+          </div>
+          <div class="page-header-actions">
+            <button type="button" class="btn btn-primary" id="btn-history-new-quiz">開始牛刀小試</button>
+            <button type="button" class="btn btn-danger-outline" id="btn-clear-history" hidden>清除全部紀錄</button>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="history-stats-grid" hidden>
+          <!-- Summary stats cards -->
+        </div>
+
+        <div id="history-list" class="history-list">
+          <!-- History items rendered by JS -->
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 5: HISTORY DETAIL ==================== -->
+      <section id="view-history-detail" class="view" aria-labelledby="history-detail-title">
+        <div class="detail-topbar">
+          <button type="button" class="btn btn-ghost" id="btn-back-to-history">← 返回歷史紀錄</button>
+          <span class="detail-meta-text" id="history-detail-meta"></span>
+        </div>
+
+        <div class="score-banner" id="history-detail-banner"></div>
+
+        <section class="result-section" aria-labelledby="history-wrong-title">
+          <div class="section-header">
+            <h2 id="history-wrong-title">該次寫錯的題目與正確解答</h2>
+            <span class="section-count" id="history-detail-wrong-badge">0 題</span>
+          </div>
+          <div id="history-detail-wrong-list" class="review-list"></div>
+        </section>
+
+        <section class="result-section" aria-labelledby="history-all-title">
+          <div class="section-header">
+            <h2 id="history-all-title">該次全部 10 題作答與解答</h2>
+          </div>
+          <div id="history-detail-all-list" class="review-list"></div>
+        </section>
+
+        <div class="result-footer-actions">
+          <button type="button" class="btn btn-primary btn-lg" id="btn-detail-retry">重新測試</button>
+          <button type="button" class="btn btn-outline btn-lg" id="btn-detail-back">返回歷史紀錄</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>EMA 小助理・EMA 創業管理分析師證照練習（題庫共 300 題）</span>
+        <span>本工具僅供教學與自我複習使用・無須帳號登入</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Custom Modal Dialog -->
+  <div id="modal-backdrop" class="modal-backdrop" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h3 id="modal-title" class="modal-title"></h3>
+      <p id="modal-body" class="modal-body"></p>
+      <div class="modal-actions" id="modal-actions"></div>
+    </div>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
